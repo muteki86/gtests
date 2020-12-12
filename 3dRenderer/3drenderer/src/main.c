@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <SDL2/SDL.h>
 #include "display.h"
+#include "vector.h"
 
 bool is_running = false;
 
@@ -51,12 +52,13 @@ void render(void){
     SDL_RenderPresent(renderer);
 }
 
-
 int main(void){
 
     is_running = initialize_window();
 
     setup();
+
+    vect3_t v1 = {2.0, 3.0, -4.0};
 
     while(is_running){
         process_input();
