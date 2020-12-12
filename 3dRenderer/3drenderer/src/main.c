@@ -6,7 +6,9 @@
 #include "display.h"
 #include "vector.h"
 
+const int N_POINTS = 9*9*9;
 bool is_running = false;
+vec3_t cube_points[N_POINTS];
 
 void setup(void){
     color_buffer = (uint32_t*) malloc( sizeof(uint32_t) * window_width * window_height);
@@ -17,6 +19,18 @@ void setup(void){
         window_width,
         window_height
     );
+
+    int point_count = 0;
+    for(float x = -1; x <= 1; x += 0.25){
+        for(float y = -1; y <= 1; y += 0.25){
+            for(float z = -1; z <= 1; z += 0.25){
+                vec3_t np = {x,y,z};
+                cube_points[point_count] = np;
+                point_count++;
+            }
+        }
+    }
+
 }
 
 void process_input(void){
@@ -58,7 +72,6 @@ int main(void){
 
     setup();
 
-    vect3_t v1 = {2.0, 3.0, -4.0};
 
     while(is_running){
         process_input();
