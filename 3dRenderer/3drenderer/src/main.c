@@ -17,6 +17,19 @@ vect2_t projected_points[N_POINTS];
 vect3_t camera_position = { 0,0,-5 };
 vect3_t cube_rotation = {0, 0, 0};
 
+vect3_t cube_vertices[8] = 
+{
+    {-1,-1,-1},
+    {-1,1,-1},
+    {1,1,-1},
+    {1,-1,-1},
+    {1,1,1},
+    {1,-1,1},
+    {-1,1,1},
+    {-1,-1,1}
+};
+vect2_t projected_vertices[8];
+
 float fov_factor = 640;
 
 void setup(void){
@@ -93,6 +106,20 @@ void update(void){
         vect2_t point2d = project(tp);
         projected_points[i] = point2d;
     }
+
+    for(int i = 0; i< 8; ++i){
+        vect3_t point = cube_vertices[i];
+
+        vect3_t tp = vec3_rotate_y(point, cube_rotation.y);
+        tp = vec3_rotate_x(tp, cube_rotation.x);
+        tp = vec3_rotate_z(tp, cube_rotation.z);
+
+        tp.z -= camera_position.z;
+
+        vect2_t point2d = project(tp);
+        projected_vertices[i] = point2d;
+    }
+
 }
 
 void render(void){
@@ -105,6 +132,14 @@ void render(void){
             ppoint2d.x + (window_width/2),
             ppoint2d.y + (window_height/2),
         4, 4,0xFFFFFF00);
+    }
+
+    for(int i = 0; i<8; i++){
+        vect2_t ppoint2d = projected_vertices[i];
+        draw_rectange(
+            ppoint2d.x + (window_width/2),
+            ppoint2d.y + (window_height/2),
+        4, 4,0xFFFF0000);
     }
 
     render_color_buffer();
