@@ -16,7 +16,7 @@ vect3_t cube_rotation = {0, 0, 0};
 
 float fov_factor = 640;
 
-triangle_t triangles_to_render[N_MESH_FACES];
+triangle_t* triangles_to_render = NULL;
 
 void setup(void){
     color_buffer = (uint32_t*) malloc( sizeof(uint32_t) * window_width * window_height);
@@ -66,9 +66,9 @@ void update(void){
 
     previous_frame_time = SDL_GetTicks();
 
-    cube_rotation.x += 0.01;
-    cube_rotation.y += 0.01;
-    cube_rotation.z += 0.01;
+    cube_rotation.x += 0.03;
+    cube_rotation.y += 0.03;
+    cube_rotation.z += 0.03;
 
     for(int i = 0; i< N_MESH_FACES; ++i){
         
@@ -116,11 +116,20 @@ void render(void){
         draw_rectange(triangle.points[0].x,triangle.points[0].y, 4, 4,0xFFFFFF00);
         draw_rectange(triangle.points[1].x,triangle.points[1].y, 4, 4,0xFFFFFF00);
         draw_rectange(triangle.points[2].x,triangle.points[2].y, 4, 4,0xFFFFFF00);
-
+        
+        draw_triangle(
+            triangle.points[0].x,
+            triangle.points[0].y,
+            triangle.points[1].x,
+            triangle.points[1].y,
+            triangle.points[2].x,
+            triangle.points[2].y,
+            0xFF00FF00  
+        );
     }
 
     render_color_buffer();
-    clear_color_buffer(0x00000000);
+    clear_color_buffer(0x00000F00);
 
     SDL_RenderPresent(renderer);
 }
