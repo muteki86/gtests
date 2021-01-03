@@ -1,7 +1,14 @@
 
+#include <stdio.h>
 #include "mesh.h" 
 
-vect3_t mesh_vertices[N_MESH_VERTICES] = 
+mesh_t mesh = {
+    .vertices = NULL,
+    .faces = NULL,
+    .rotation = {0,0,0}
+};
+
+vect3_t cube_vertices[N_CUBE_VERTICES] = 
 {
     {-1,-1,-1},
     {-1,1,-1},
@@ -13,7 +20,7 @@ vect3_t mesh_vertices[N_MESH_VERTICES] =
     {-1,-1,1}
 };
 
-face_t mesh_faces[N_MESH_FACES] = {
+face_t cube_faces[N_CUBE_FACES] = {
     //front
     {1,2,3},{1,3,4},
     //right
@@ -27,3 +34,12 @@ face_t mesh_faces[N_MESH_FACES] = {
     //botton
     {6,8,1},{6,1,4}
 };
+
+void load_cube_mesh_data(void){
+    for(int i = 0; i< N_CUBE_VERTICES; ++i){
+        array_push(mesh.vertices, cube_vertices[i]);
+    }
+    for(int j = 0; j< N_CUBE_FACES; ++j){
+        array_push(mesh.faces, cube_faces[j]);
+    }
+}
